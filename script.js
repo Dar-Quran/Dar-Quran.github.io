@@ -15,9 +15,11 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 }
 
 
-
-window.location.href = "/?phone=" + encodeURIComponent(phoneNumber);
-
+function redirectToPage(event) {
+   event.preventDefault(); // منع التقديم الافتراضي للنموذج
+   const phoneNumber = document.getElementById("phone").value; // الحصول على قيمة رقم الهاتف
+   window.location.href = "/" + phoneNumber; // إعادة التوجيه إلى الصفحة مع رقم الهاتف
+ }
 
 /*
      FILE ARCHIVED ON 03:10:35 Oct 20, 2020 AND RETRIEVED FROM THE
