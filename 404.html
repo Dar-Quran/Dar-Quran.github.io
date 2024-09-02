@@ -7,14 +7,7 @@
     <title>متابعة دار القرآن</title>
     <link rel="stylesheet" href="style.css" />
     <script src="script.js"></script>
-    <script>
-      function openCustomLink(event) {
-        event.preventDefault(); // منع السلوك الافتراضي للنموذج
-        const phoneNumber = document.getElementById("phone").value; // الحصول على قيمة الإدخال
-        const customUrl = "https://dar-quran.github.io/"; // بناء الرابط المخصص
-        window.location.href = customUrl; // توجيه المستخدم إلى الرابط المخصص
-      }
-    </script>
+
   </head>
   <body>
     <div class="wrapper">
@@ -22,7 +15,7 @@
       <form onsubmit="openCustomLink(event)">
        
         <div class="row button">
-          <input type="submit" value="حاول مجددا" />
+          <input type="button" class="button_active" href="dar-quran.github.io" />
         </div>
       </form>
     </div>
