@@ -16,23 +16,8 @@ if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; re
 
 
 
-async function fetchData() {
-  const response = await fetch('https://script.google.com/macros/s/AKfycbwXZLY4AbomVHjb2MnVLIUlV3MxRGrs9g4sAMIhSoOg_DfW74AXM6XAJ4SGqu45xs6X-w/exec');
-  const data = await response.json();
-  console.log(data);
-}
+window.location.href = "/?phone=" + encodeURIComponent(phoneNumber);
 
-async function postData() {
-  const response = await fetch('https://script.google.com/macros/s/AKfycbwXZLY4AbomVHjb2MnVLIUlV3MxRGrs9g4sAMIhSoOg_DfW74AXM6XAJ4SGqu45xs6X-w/exec', {
-    method: 'POST',
-    body: JSON.stringify({name: 'John Doe', phone: '1234567890', evaluation: 'A', assignments: 'Math homework'}),
-    headers: {'Content-Type': 'application/json'}
-  });
-  const text = await response.text();
-  console.log(text);
-}
-
-fetchData();
 
 /*
      FILE ARCHIVED ON 03:10:35 Oct 20, 2020 AND RETRIEVED FROM THE
