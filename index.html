@@ -11,15 +11,14 @@
   <body>
     <div class="wrapper">
       <div class="title"><span>Login Form</span></div>
-      <form action="#">
+      <form onsubmit="redirectToPage(event)"> <!-- إضافة onsubmit لاستدعاء الدالة -->
         <div class="row">
           <i class="fas fa-user"></i>
-          <input type="text" placeholder="Phone" required />
+          <input type="text" id="phone" placeholder="Phone" required />
         </div>
         <div class="row button">
           <input type="submit" value="Login" />
         </div>
-        
       </form>
     </div>
   </body>
