@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز ماعين القرآني</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css" />
+    
+</head>
+        <style>
+            /* إخفاء المحتوى في البداية */
+            #protected-content {
+                display: none;
+            }
+            
+        </style>
+        <script>
+            function checkPassword() {
+                var password = prompt("الرجاء إدخال كلمة المرور:");
+                
+                // تحقق من كلمة المرور
+                if (password === "12345") {
+                    // إذا كانت كلمة المرور صحيحة، عرض المحتوى
+                    document.getElementById('protected-content').style.display = 'block';
+                } else {
+                    // إعادة توجيه المستخدم أو إعطاء رسالة خطأ
+                    alert("كلمة المرور خاطئة!");
+                    window.location.href = "/"; // يمكنك تغيير الرابط إلى المكان الذي ترغب في تحويله
+                }
+            }
+</script>
+<body  dir="rtl" onload="checkPassword()">
+    <div id="protected-content">
+<header>
+    
+    <img src="logo.png" alt="شعار مركز ماعين القرآني">
+    <h1>مركز ماعين القرآني</h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/">الرئيسية</a></li>
+        <li><a href="/Login">تسجيل الدخول</a></li>
+        <li><a href="/Contact">اتصل بنا</a></li>
+        <li><a href="/Gallery">معرض الصور</a></li>
+    </ul>
+</nav>
+
+<section id="about">
+    <h2>الطالب حسام أمجد السنيان:</h2>
+    <nav>   
+
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSfB8CyplSW6MCRlagRYNAlghiroYsqU8K7P9tEtxO1BAUDViLFbdOiQ219de32pkStcpHiZs7lwDN7/pubhtml?gid=694310649&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+</nav>
+
+    <h2>هل المعلومات غير واضحة؟</h2>  
+    <ul>
+        <li> 1. جرب تنزيل الملف <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSfB8CyplSW6MCRlagRYNAlghiroYsqU8K7P9tEtxO1BAUDViLFbdOiQ219de32pkStcpHiZs7lwDN7/pub?output=pdf">تنزيل المعلومات</a></li>
+        <li> 2. إذا كنت تسنخدم الهاتف جرب التدوير بالعرض</li>
+    </ul>
+</section>
+
+
+<footer>
+    <p>&copy; 2024 مركز ماعين القرآني. جميع الحقوق محفوظة.</p>
+</footer>
+
+<script>
+    const images = document.querySelectorAll('#slider img');
+    let currentIndex = 0;
+
+    function showImage(index) {
+        images.forEach((img, i) => {
+            img.classList.toggle('active', i === index);
+        });
+    }
+
+    document.getElementById('next').addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    });
+
+    document.getElementById('prev').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+    });
+
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    }, 3000);
+</script>
+    </div>
+</body>
+</html>
