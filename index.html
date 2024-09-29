@@ -1,25 +1,210 @@
 <!DOCTYPE html>
-<!-- Website - www.codingnepalweb.com -->
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>متابعة دار القرآن</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <div class="wrapper">
-      <div class="title"><span>تسجيل الدخول</span></div>
-      <form onsubmit="redirectToPage(event)"> <!-- إضافة onsubmit لاستدعاء الدالة -->
-        <div class="row">
-          <i class="fas fa-user"></i>
-          <input type="text" id="phone" placeholder="رقم الهاتف" required />
-        </div>
-        <div class="row button">
-          <input type="submit" value="تأكيد" />
-        </div>
-      </form>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مركز ماعين القرآني</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            background-color: #fdfbf2; /* لون الخلفية العام */
+            color: #845e3e; /* لون النص الرئيسي */
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background-color: #845e3e; /* لون الترويسة */
+            padding: 20px;
+            color: #fdfbf2; /* لون النص في الترويسة */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        header img {
+            width: 80px;
+            height: auto;
+            margin-left: 20px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin: 0;
+            color: #f4f3e3; /* لون العنوان */
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            direction: rtl;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #845e3e; /* لون الروابط */
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        #about {
+            padding: 30px;
+            background-color: #e7e6d5; /* خلفية القسم */
+            line-height: 1.8;
+        }
+
+        #slider {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        #slider img {
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        #slider img.active {
+            display: block;
+        }
+
+        #slider .controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        #slider .controls button {
+            background-color: #d6a334; /* لون أزرار التحكم بالصور */
+            border: none;
+            color: #fdfbf2;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #845e3e;
+            padding: 20px;
+            color: #fdfbf2;
+        }
+
+        footer a {
+            color: #d9ca5e;
+            text-decoration: none;
+        }
+
+        iframe {
+            width: 100%;
+            max-width: 800px;
+            height: 300px;
+            border: none;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav ul li {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>مركز ماعين القرآني</h1>
+    <img src="logo.png" alt="شعار مركز ماعين القرآني">
+</header>
+
+<nav>
+    <ul>
+        <li><a href="/">الرئيسية</a></li>
+        <li><a href="/Login">تسجيل الدخول</a></li>
+        <li><a href="/Contact">اتصل بنا</a></li>
+        <li><a href="/Gallery">معرض الصور</a></li>
+    </ul>
+</nav>
+
+<section id="about">
+    <h2>عن المركز</h2>
+    <p>مركز ماعين لتعليم وتحفيظ القرآن الكريم، يهدف إلى تعليم الأطفال والشباب والأجيال القادمة حفظ كتاب الله وتعاليمه السامية.</p>
+</section>
+
+<section id="slider">
+  <h2>معرض الصور</h2>
+  <img src="image/1.jpg" class="active" alt="Image 1">
+  <img src="image/2.jpg" alt="Image 2"> 
+  <img src="image/3.jpg" alt="Image 3">
+  <img src="image/4.jpg" alt="Image 4">
+  <img src="image/5.jpg" alt="Image 5">
+  <img src="image/6.jpg" alt="Image 6">
+  <img src="image/7.jpg" alt="Image 7">
+  <img src="image/8.jpg" alt="Image 8">
+  <img src="image/9.jpg" alt="Image 9">
+  <img src="image/10.jpg" alt="Image 10">
+  <img src="image/11.jpg" alt="Image 11">
+  <img src="image/12.jpg" alt="Image 12">
+  <img src="image/13.jpg" alt="Image 13">
+  <img src="image/14.jpg" alt="Image 14">
+    <div class="controls">
+        <button id="prev">السابق</button>
+        <button id="next">التالي</button>
     </div>
-  </body>
+</section>
+
+<section>
+    <h2>موقعنا الجغرافي</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3395.0893482566107!2d35.72711358484526!3d31.686125281315057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15034d353e181061%3A0xa6dc92a6688530df!2z2YXYsdmD2LIg2YXYp9i52YrZhiDYp9mE2YLYsdii2YbZig!5e0!3m2!1sar!2sjo!4v1727610101026!5m2!1sar!2sjo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</section>
+
+<footer>
+    <p>&copy; 2024 مركز ماعين القرآني. جميع الحقوق محفوظة.</p>
+    <p><a href="https://maps.app.goo.gl/78zDoReD6qvwq62W6" target="_blank">عرض الموقع على خرائط جوجل</a></p>
+</footer>
+
+<script>
+    const images = document.querySelectorAll('#slider img');
+    let currentIndex = 0;
+
+    function showImage(index) {
+        images.forEach((img, i) => {
+            img.classList.toggle('active', i === index);
+        });
+    }
+
+    document.getElementById('next').addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    });
+
+    document.getElementById('prev').addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+    });
+
+    setInterval(() => {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    }, 3000);
+</script>
+
+</body>
 </html>
