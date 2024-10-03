@@ -16,7 +16,21 @@
             }
             
         </style>
-        
+        <script>
+            function checkPassword() {
+                var password = prompt("الرجاء إدخال كلمة المرور:");
+                
+                // تحقق من كلمة المرور
+                if (password === "12345") {
+                    // إذا كانت كلمة المرور صحيحة، عرض المحتوى
+                    document.getElementById('protected-content').style.display = 'block';
+                } else {
+                    // إعادة توجيه المستخدم أو إعطاء رسالة خطأ
+                    alert("كلمة المرور خاطئة!");
+                    window.location.href = "/"; // يمكنك تغيير الرابط إلى المكان الذي ترغب في تحويله
+                }
+            }
+</script>
 <body  dir="rtl" onload="checkPassword()">
     <div id="protected-content">
 <header>
@@ -38,8 +52,8 @@
     <h2>الطالب حسام أمجد السنيان:</h2>
     <nav>   
 
-    <iframe src="https://script.google.com/macros/s/AKfycbxm8c5xxugUKVURIgNK3gqLmHpkVYEaBi_m3P61OXli9orJ6BBPiQIxj00VSPMWvnQzlQ/exec"></iframe>
-</nav>
+        <iframe src="https://script.google.com/macros/s/AKfycbxm8c5xxugUKVURIgNK3gqLmHpkVYEaBi_m3P61OXli9orJ6BBPiQIxj00VSPMWvnQzlQ/exec"></iframe>
+    </nav>
 
     <h2>هل المعلومات غير واضحة؟</h2>  
     <ul>
