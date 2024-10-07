@@ -52,7 +52,7 @@
         // التحقق من صحة البيانات
         if (phone && password) {
           // تمرير البيانات عبر URL إلى الصفحة التالية
-          window.location.href = "/" + encodeURIComponent(phone) + "?password=" + encodeURIComponent(password);
+          window.location.href = "/data?phone=" + encodeURIComponent(phone) + "&password=" + encodeURIComponent(password);
         } else {
           alert("يرجى إدخال رقم الهاتف وكلمة المرور");
         }
