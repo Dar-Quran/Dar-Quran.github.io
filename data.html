@@ -7,19 +7,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css" />
-    
+    <style>
+        /* إضافة تنسيق للنوافذ المنبثقة */
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 2px solid #333;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .close-btn {
+            cursor: pointer;
+            color: red;
+        }
+    </style>
 </head>
 
 <script>
   async function fetchStudentData() {
-      const phone =  new URLSearchParams(window.location.search).get('phone');  // جلب رقم الهاتف من URL
+      const phone = new URLSearchParams(window.location.search).get('phone');  // جلب رقم الهاتف من URL
       const password = new URLSearchParams(window.location.search).get('password');  // جلب كلمة السر من URL
 
       // قراءة ملف JSON من الرابط
       const response = await fetch('https://script.googleusercontent.com/macros/echo?user_content_key=1SkONUUJ8IomIQtgrfQFEvCueraXzB3Hz4iPqb3FSf2zc9XdMzOFglErR3VZl2pi5CjvZroUi5xGjur15vyprv5uYX22XzmPm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnLuBqrHLBreZheddh8-jplz9qPPJAfa3pe3xoegKNDSBY1dzb9KMtEnU94hDSFeRQK8NLovA-UU3MZPmURq-qLewIFvGxY2kJg&lib=MNExrd03P-Pa4sVWuP0UGVykXlAB7Sf_4');  // استبدل 'رابط_ملف_JSON' بالرابط الصحيح
       const studentsData = await response.json();
 
-      const student = studentsData.find(student =>  student["رقم الهاتف"]  ===  parseInt(phone));
+      const student = studentsData.find(student => student["رقم الهاتف"] === parseInt(phone));
 
       // التحقق من وجود الطالب
       if (!student) {
@@ -28,7 +56,7 @@
       }
 
       // التحقق من كلمة السر
-      if ( student["كلمة السر"]  !== parseInt(password)) {
+      if (student["كلمة السر"] !== parseInt(password)) {
           document.getElementById('message').textContent = "يرجى التأكد من ادخال كلمة السر بشكل صحيح.";
           return;
       }
@@ -56,6 +84,16 @@
                   const td = document.createElement('td');
                   if (key === "التاريخ") {
                       td.textContent = formatDate(row[key]);
+                  } else if (key === "الواجب التالي") {
+                      const button = document.createElement('button');
+                      button.textContent = "عرض الواجب التالي";
+                      button.onclick = () => showPopup("الواجب التالي", row[key]);
+                      td.appendChild(button);
+                  } else if (key === "ملاحظات تربوية") {
+                      const button = document.createElement('button');
+                      button.textContent = "عرض الملاحظات";
+                      button.onclick = () => showPopup("ملاحظات تربوية", row[key]);
+                      td.appendChild(button);
                   } else {
                       td.textContent = row[key];
                   }
@@ -87,59 +125,73 @@
       return dateString;
   }
 
+  function showPopup(title, content) {
+      document.getElementById('popupTitle').textContent = title;
+      document.getElementById('popupContent').textContent = content;
+      document.getElementById('popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+  }
+
+  function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+  }
+
   window.onload = function() {
       fetchStudentData();
   };
 </script>
-<body  dir="rtl">
+<body dir="rtl">
     <div>
-<header>
-    
-    <img src="logo.png" alt="شعار مركز ماعين القرآني">
-    <h1>مركز ماعين القرآني</h1>
-</header>
+        <header>
+            <img src="logo.png" alt="شعار مركز ماعين القرآني">
+            <h1>مركز ماعين القرآني</h1>
+        </header>
 
-<nav>
-    <ul>
-        <li><a href="/">الرئيسية</a></li>
-        <li><a href="/Login">تسجيل الدخول</a></li>
-        <li><a href="/Contact">اتصل بنا</a></li>
-        <li><a href="/Gallery">معرض الصور</a></li>
-    </ul>
-</nav>
-
-<section id="about">
-    <nav>   
-
-        <center>
-            <h2 id="studentName">بيانات الطالب</h2> <!-- سيتم تعديل هذا النص بناءً على الاسم في URL -->
-
-            <!-- رسالة الخطأ -->
-        <p id="message" style="color: red;"></p>
-      <table id="studentTable" border="3" cellpadding="5px">
-              <tr>
-                <th>التاريخ</th>
-                <th>الحفظ</th>
-                <th>الحضور</th>
-                <th>الواجب التالي</th>
-                <th>ملاحظات تربوية</th>
-              </tr>
-            </table>
-          
-          <div id="loadingMessage">
-            <div class="loader">  </div>
-          جار تحميل المعلومات ...</div>
-        
+        <nav>
+            <ul>
+                <li><a href="/">الرئيسية</a></li>
+                <li><a href="/Login">تسجيل الدخول</a></li>
+                <li><a href="/Contact">اتصل بنا</a></li>
+                <li><a href="/Gallery">معرض الصور</a></li>
+            </ul>
         </nav>
-      </center>
 
-</section>
+        <section id="about">
+            <nav>   
+                <center>
+                    <h2 id="studentName">بيانات الطالب</h2> <!-- سيتم تعديل هذا النص بناءً على الاسم في URL -->
+                    <!-- رسالة الخطأ -->
+                    <p id="message" style="color: red;"></p>
+                    <table id="studentTable" border="3" cellpadding="5px">
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>الحفظ</th>
+                            <th>الحضور</th>
+                            <th>الواجب التالي</th>
+                            <th>ملاحظات تربوية</th>
+                        </tr>
+                    </table>
+                    
+                    <div id="loadingMessage" style="display: none;">
+                        <div class="loader"></div>
+                        جار تحميل المعلومات ...
+                    </div>
+                </nav>
+                </center>
+        </section>
 
+        <!-- نافذة منبثقة -->
+        <div id="overlay" class="overlay" onclick="closePopup()"></div>
+        <div id="popup" class="popup">
+            <h3 id="popupTitle"></h3>
+            <p id="popupContent"></p>
+            <span class="close-btn" onclick="closePopup()">إغلاق</span>
+        </div>
 
-<footer>
-    <p>&copy; 2024 مركز ماعين القرآني. جميع الحقوق محفوظة.</p>
-</footer>
-
+        <footer>
+            <p>&copy; 2024 مركز ماعين القرآني. جميع الحقوق محفوظة.</p>
+        </footer>
     </div>
 </body>
 </html>
