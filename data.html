@@ -86,12 +86,12 @@
                       td.textContent = formatDate(row[key]);
                   } else if (key === "الواجب التالي") {
                       const button = document.createElement('button');
-                      button.textContent = "عرض الواجب التالي";
+                      button.textContent = "عرض ";
                       button.onclick = () => showPopup("الواجب التالي", row[key]);
                       td.appendChild(button);
                   } else if (key === "ملاحظات تربوية") {
                       const button = document.createElement('button');
-                      button.textContent = "عرض الملاحظات";
+                      button.textContent = "عرض";
                       button.onclick = () => showPopup("ملاحظات تربوية", row[key]);
                       td.appendChild(button);
                   } else {
