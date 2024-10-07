@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>متابعة دار القرآن</title>
+    <link rel="stylesheet" href="style.css" />
+    
+    <script>
+        async function fetchClassData() {
+            try {
+                // عرض رسالة تحميل
+                document.getElementById('loadingMessage').style.display = 'block';
+
+                // جلب بيانات الشعب من رابط JSON
+                const response = await fetch('https://script.google.com/macros/s/AKfycbyIx4I-HtAIz0XR0X2QTZLIj7tR0skfWbPESmxcX9QSJbG2UFzMjuUl4HmJP61M3il1/exec'); 
+                const classData = await response.json();
+                
+                const studentTable = document.getElementById('studentTable');
+
+                // تعبئة الجدول بأسماء الشعب
+                classData.forEach(classItem => {
+                    const tr = document.createElement('tr');
+                    const tdName = document.createElement('td');
+                    const tdButton = document.createElement('td');
+
+                    tdName.textContent = classItem["إسم الشعبة"];
+
+                    const button = document.createElement('button');
+                    button.textContent = 'دخول';
+                    button.onclick = () => {
+                        // طلب كلمة السر من المستخدم
+                        const passwordInput = prompt("يرجى إدخال كلمة السر:");
+                        if (passwordInput == classItem["password"]) {
+                            // الانتقال إلى الصفحة مع المعلمات
+                            const url = `/FillingForms?macrosId=${classItem["قاعدة البيانات الماكرو"]}&name=${encodeURIComponent(classItem["إسم الشعبة"])}&=password${encodeURIComponent(classItem["password"])}`;
+                            window.location.href = url; // الانتقال إلى الصفحة
+                        } else {
+                            // عرض رسالة خطأ حتى إذا كانت كلمة السر غير صحيحة
+                            alert("كلمة السر غير صحيحة. يرجى المحاولة مرة أخرى.");
+                            console.log("كلمة السر التي أدخلت كانت:", passwordInput); // تسجيل كلمة السر المدخلة في وحدة التحكم
+                            console.log("كلمة السر الصحيحة هي:", classItem["password"]); // طباعة كلمة السر الصحيحة
+                            console.log("كلمة السر غير صحيحة. يرجى المحاولة مرة أخرى.");
+                        }
+                    };
+
+                    tdButton.appendChild(button);
+                    tr.appendChild(tdName);
+                    tr.appendChild(tdButton);
+                    studentTable.appendChild(tr);
+                });
+
+                // إخفاء رسالة التحميل بعد الانتهاء
+                document.getElementById('loadingMessage').style.display = 'none';
+
+            } catch (error) {
+                console.error('حدث خطأ أثناء جلب البيانات:', error);
+                document.getElementById('message').textContent = 'حدث خطأ أثناء جلب البيانات.';
+                // إخفاء رسالة التحميل في حالة حدوث خطأ
+                document.getElementById('loadingMessage').style.display = 'none';
+            }
+        }
+
+        window.onload = () => {
+            fetchClassData(); // استدعاء الدالة عند تحميل الصفحة
+        }; 
+    </script>
+</head>
+<body>
+    <header>
+        <h1>مركز ماعين القرآني</h1>
+        <img src="logo.png" alt="شعار مركز ماعين القرآني">
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="/">الرئيسية</a></li>
+            <li><a href="/Login">تسجيل الدخول</a></li>
+            <li><a href="/Contact">اتصل بنا</a></li>
+            <li><a href="/Gallery">معرض الصور</a></li>
+        </ul>
+    </nav>
+    <br>
+
+    <div class="wrapper">
+        <br>
+        <h2>إدخال الحضور والغياب للشعب</h2> 
+
+        <center>
+            <!-- رسالة الخطأ -->
+            <p id="message" style="color: red;"></p>
+            <table id="studentTable" border="3" cellpadding="5px">
+                <tr>
+                    <th>اسم الشعبة</th>
+                    <th>دخول</th>
+                </tr>
+            </table>
+
+            <div id="loadingMessage" style="display: none;">
+                <div class="loader"></div>
+                جار تحميل المعلومات ...
+            </div>
+        </center>
+    </div>
+
+</body>
+</html>
