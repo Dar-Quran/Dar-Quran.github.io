@@ -109,8 +109,6 @@ footer a {
 
 iframe {
     width: 100%;
-    max-width: 800px;
-    height: 300px;
     border: none;
     margin: 20px 0;
 }
