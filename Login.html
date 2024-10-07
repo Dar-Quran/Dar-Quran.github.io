@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Website - www.codingnepalweb.com -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
@@ -12,29 +11,52 @@
     <header>
       <h1>مركز ماعين القرآني</h1>
       <img src="logo.png" alt="شعار مركز ماعين القرآني">
-  </header>
-  
-  <nav>
+    </header>
+
+    <nav>
       <ul>
           <li><a href="/">الرئيسية</a></li>
           <li><a href="/Login">تسجيل الدخول</a></li>
           <li><a href="/Contact">اتصل بنا</a></li>
           <li><a href="/Gallery">معرض الصور</a></li>
       </ul>
-  </nav>
-  <br>
+    </nav>
+    <br>
+    
     <div class="wrapper">
       <br>
-  <h2>تسجيل الدخول</h2>
-      <form onsubmit="redirectToPage(event)"> <!-- إضافة onsubmit لاستدعاء الدالة -->
+      <h2>تسجيل الدخول</h2>
+      <form onsubmit="redirectToPage(event)">
         <div class="row">
           <i class="fa-solid fa-phone"><image src="image/phone-call.png"></image></i>
           <input type="text" id="phone" placeholder="رقم الهاتف" required />
+        </div>
+        <div class="row">
+          <i class="fa-solid fa-lock"><image src="image/lock.png"></image></i>
+          <input type="password" id="password" placeholder="كلمة المرور" required />
         </div>
         <div class="row button">
           <input type="submit" value="تأكيد" />
         </div>
       </form>
     </div>
+
+    <script>
+      function redirectToPage(event) {
+        event.preventDefault(); // منع إرسال النموذج بشكل افتراضي
+
+        // قراءة البيانات المدخلة
+        var phone = document.getElementById("phone").value;
+        var password = document.getElementById("password").value;
+
+        // التحقق من صحة البيانات
+        if (phone && password) {
+          // تمرير البيانات عبر URL إلى الصفحة التالية
+          window.location.href = "/" + encodeURIComponent(phone) + "؟password=" + encodeURIComponent(password);
+        } else {
+          alert("يرجى إدخال رقم الهاتف وكلمة المرور");
+        }
+      }
+    </script>
   </body>
 </html>
