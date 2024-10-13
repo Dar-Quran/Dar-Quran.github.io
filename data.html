@@ -20,6 +20,8 @@
             padding: 20px;
             z-index: 1000;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            text-align: center;
         }
         .overlay {
             display: none;
@@ -34,6 +36,7 @@
         .close-btn {
             cursor: pointer;
             color: red;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -44,7 +47,7 @@
         const password = new URLSearchParams(window.location.search).get('password');  // جلب كلمة السر من URL
   
         // قراءة ملف JSON من الرابط
-        const response = await fetch('https://script.googleusercontent.com/macros/echo?user_content_key=1SkONUUJ8IomIQtgrfQFEvCueraXzB3Hz4iPqb3FSf2zc9XdMzOFglErR3VZl2pi5CjvZroUi5xGjur15vyprv5uYX22XzmPm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnLuBqrHLBreZheddh8-jplz9qPPJAfa3pe3xoegKNDSBY1dzb9KMtEnU94hDSFeRQK8NLovA-UU3MZPmURq-qLewIFvGxY2kJg&lib=MNExrd03P-Pa4sVWuP0UGVykXlAB7Sf_4');  // استبدل 'رابط_ملف_JSON' بالرابط الصحيح
+        const response = await fetch('https://script.googleusercontent.com/macros/echo?user_content_key=1SkONUUJ8IomIQtgrfQFEvCueraXzB3Hz4iPqb3FSf2zc9XdMzOFglErR3VZl2pi5CjvZroUi5xGjur15vyprv5uYX22XzmPm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnLuBqrHLBreZheddh8-jplz9qPPJAfa3pe3xoegKNDSBY1dzb9KMtEnU94hDSFeRQK8NLovA-UU3MZPmURq-qLewIFvGxY2kJg&lib=MNExrd03P-Pa4sVWuP0UGVykXlAB7Sf_4');
         const studentsData = await response.json();
   
         const matchingStudents = studentsData.filter(student => student["رقم الهاتف"] === parseInt(phone));
@@ -72,6 +75,21 @@
         <center>
             <section class="student-section">
                 <h2>بيانات الطالب ${studentName}</h2>
+                <!-- جدول لعرض بيانات اخر يوم -->
+                <div class="last-session">
+                    <h2>حصة اخر يوم</h2>
+                    <table border="3" cellpadding="5px">
+                        <tr>
+                            <th>التاريخ</th>
+                            <th>الحفظ</th>
+                            <th>الحضور</th>
+                            <th>الواجب التالي</th>
+                            <th>ملاحظات تربوية</th>
+                        </tr>
+                        <tbody id="lastSessionTable-${scriptId}"></tbody> <!-- جدول حصة اخر يوم -->
+                    </table>
+                </div>
+                <h2>باقي الحصص</h2>
                 <table border="3" cellpadding="5px">
                     <tr>
                         <th>التاريخ</th>
@@ -86,6 +104,8 @@
                     <div class="loader"></div>
                     جار تحميل المعلومات ...
                 </div>
+                
+                
             </section>
             
   <br>
@@ -103,38 +123,65 @@
   
     async function fetchStudentRecords(scriptId) {
         try {
-            // إظهار رسالة "جار التحميل ..."
-            //document.getElementById(`loadingMessage-${scriptId}`).style.display = 'block';
-  
             const response = await fetch(`https://script.google.com/macros/s/${scriptId}/exec`);
             const jsonData = await response.json();
   
             const table = document.getElementById(`studentTable-${scriptId}`);
-            jsonData.forEach(row => {
-                const tr = document.createElement('tr');
-                for (const key in row) {
+            const lastSessionTable = document.getElementById(`lastSessionTable-${scriptId}`);
+  
+            if (jsonData.length > 0) {
+                const lastSession = jsonData[jsonData.length - 1]; // جلب اخر حصة
+                jsonData.pop(); // إزالة اخر حصة من باقي السجلات
+  
+                // إضافة السجل الأخير إلى جدول "حصة اخر يوم"
+                const lastSessionRow = document.createElement('tr');
+                for (const key in lastSession) {
                     const td = document.createElement('td');
                     if (key === "التاريخ") {
-                        td.textContent = formatDate(row[key]);
+                        td.textContent = formatDate(lastSession[key]);
                     } else if (key === "الواجب التالي") {
                         const button = document.createElement('button');
-                        button.textContent = "عرض ";
-                        button.onclick = () => showPopup("الواجب التالي", row[key]);
+                        button.textContent = "عرض";
+                        button.onclick = () => showPopup("الواجب التالي", lastSession[key]);
                         td.appendChild(button);
                     } else if (key === "ملاحظات تربوية") {
                         const button = document.createElement('button');
                         button.textContent = "عرض";
-                        button.onclick = () => showPopup("ملاحظات تربوية", row[key]);
+                        button.onclick = () => showPopup("ملاحظات تربوية", lastSession[key]);
                         td.appendChild(button);
                     } else {
-                        td.textContent = row[key];
+                        td.textContent = lastSession[key];
                     }
-                    tr.appendChild(td);
+                    lastSessionRow.appendChild(td);
                 }
-                table.appendChild(tr);
-            });
+                lastSessionTable.appendChild(lastSessionRow);
   
-            // إخفاء رسالة "جار التحميل ..." بعد الانتهاء
+                // إضافة باقي السجلات إلى الجدول الرئيسي
+                jsonData.forEach(row => {
+                    const tr = document.createElement('tr');
+                    for (const key in row) {
+                        const td = document.createElement('td');
+                        if (key === "التاريخ") {
+                            td.textContent = formatDate(row[key]);
+                        } else if (key === "الواجب التالي") {
+                            const button = document.createElement('button');
+                            button.textContent = "عرض ";
+                            button.onclick = () => showPopup("الواجب التالي", row[key]);
+                            td.appendChild(button);
+                        } else if (key === "ملاحظات تربوية") {
+                            const button = document.createElement('button');
+                            button.textContent = "عرض";
+                            button.onclick = () => showPopup("ملاحظات تربوية", row[key]);
+                            td.appendChild(button);
+                        } else {
+                            td.textContent = row[key];
+                        }
+                        tr.appendChild(td);
+                    }
+                    table.appendChild(tr);
+                });
+            }
+  
             document.getElementById(`loadingMessage-${scriptId}`).style.display = 'none';
         } catch (error) {
             console.error('حدث خطأ أثناء جلب البيانات:', error);
@@ -146,7 +193,7 @@
         const date = new Date(dateString);
         if (!isNaN(date.getTime())) {
             let day = date.getDate();
-            let month = date.getMonth() + 1; // الأشهر في JavaScript تبدأ من 0
+            let month = date.getMonth() + 1;
             let year = date.getFullYear();
   
             day = day < 10 ? '0' + day : day;
@@ -157,33 +204,62 @@
         return dateString;
     }
   
-    window.onload = function() {
-        fetchStudentData();
-    };
-  </script>
+    function showPopup(title, content) {
+        const popup = document.getElementById('popup');
+        const popupTitle = document.getElementById('popupTitle');
+        const popupContent = document.getElementById('popupContent');
   
-  <body dir="rtl">
-      <div>
-          <header>
-              <img src="logo.png" alt="شعار مركز ماعين القرآني">
-              <h1>مركز ماعين القرآني</h1>
-          </header>
-          <nav>
-              <ul>
-                  <li><a href="/">الرئيسية</a></li>
-                  <li><a href="/Login">تسجيل الدخول</a></li>
-                  <li><a href="/Contact">اتصل بنا</a></li>
-                  <li><a href="/Gallery">معرض الصور</a></li>
-              </ul>
-          </nav>
+        popupTitle.textContent = title;
+        popupContent.textContent = content;
   
-          <section id="studentSections">
-              <!-- سيتم هنا إدراج أقسام الطلاب المتعددة -->
-          </section>
+        document.getElementById('overlay').style.display = 'block';
+        popup.style.display = 'block';
+    }
   
-          <footer>
-              <p>&copy; 2024 مركز ماعين القرآني. جميع الحقوق محفوظة.</p>
-          </footer>
-      </div>
-  </body>
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+  
+    document.addEventListener('DOMContentLoaded', fetchStudentData);
+</script>
+  
+<body dir="rtl">
+    <div>
+        <header>
+            <img src="logo.png" alt="شعار مركز ماعين القرآني">
+            <h1>مركز ماعين القرآني</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="/">الرئيسية</a></li>
+                <li><a href="/Login">تسجيل الدخول</a></li>
+                <li><a href="/Contact">اتصل بنا</a></li>
+                <li><a href="/Gallery">معرض الصور</a></li>
+            </ul>
+        </nav>
+
+        <section id="studentSections">
+            <!-- سيتم هنا إدراج أقسام الطلاب المتعددة -->
+            <center><div id="loadingMessage" >
+                <div class="loader"></div>
+                جار تحميل المعلومات ...
+            </div></center>
+        </section>
+
+        <!-- غطاء الخلفية للنوافذ المنبثقة -->
+        <div id="overlay" class="overlay" onclick="closePopup()"></div>
+
+        <!-- النافذة المنبثقة -->
+        <div id="popup" class="popup">
+            <h3 id="popupTitle"></h3>
+            <p id="popupContent"></p>
+            <button class="close-btn" onclick="closePopup()">إغلاق</button>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 مركز ماعين القرآني. جميع الحقوق محفوظة.</p>
+        </footer>
+    </div>
+</body>
 </html>
