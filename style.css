@@ -1,39 +1,43 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 * {
-  margin: 0;
+  margin: 5px;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
 }
 body {
-    font-family: 'Amiri', serif;
-    background-color: #fdfbf2; /* لون الخلفية العام */
-    color: #845e3e; /* لون النص الرئيسي */
+  font-family: "Rubik", serif;
+    background-color: #ebeded; /* لون الخلفية العام */
+    color: #597d90; /* لون النص الرئيسي */
     margin: 0;
     padding: 0;
     text-align: center;
+    width: 100%;
 }
 
 header {
-    background-color: #845e3e; /* لون الترويسة */
-    padding: 20px;
-    color: #fdfbf2; /* لون النص في الترويسة */
+    background-color: #ebeded; /* لون الترويسة */
+    padding: 5px;
+    color: #597d90; /* لون النص في الترويسة */
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: sticky;
+    top: 0; /* يجعل العنوان يلتصق بأعلى الشاشة */
+    z-index: 1000; /* لضمان ظهوره فوق العناصر الأخرى */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* تأثير ظل عند الثبات */
+    width: 100%;
 }
 
 header img {
-    width: 80px;
-    height: auto;
-    margin-left: 20px;
+  width: 100%; /* تمديد الصورة بعرض كامل العنصر */
+  max-width: 400px; /* حد أقصى للعرض لتجنب التشوه */
+  height: auto; /* الحفاظ على النسبة الأصلية للصورة */
+  display: block; /* ضمان تنسيق الصورة بشكل جيد */
+  margin: 0 auto; /* توسيط الصورة */
 }
 
+
 header h1 {
-    font-size: 28px;
-    margin: 0;
-    color: #f4f3e3; /* لون العنوان */
+  display: none;
 }
 
 nav ul {
@@ -51,15 +55,19 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #845e3e; /* لون الروابط */
+    color: #597d90; /* لون الروابط */
     text-decoration: none;
     font-size: 24px;
 }
 
 #about {
     padding: 30px;
-    background-color: #e7e6d5; /* خلفية القسم */
+    background-color: #e8e8e8; /* خلفية القسم */
     line-height: 1.8;
+    margin: 30px;
+}
+#about_text {
+  font-size: 15px;
 }
 
 #slider {
@@ -89,21 +97,25 @@ nav ul li a {
 }
 
 #slider .controls button {
-    background-color: #d6a334; /* لون أزرار التحكم بالصور */
+    background-color: #83acad; /* لون أزرار التحكم بالصور */
     border: none;
-    color: #fdfbf2;
+    color: #d4d4d6;
     padding: 10px;
     cursor: pointer;
 }
+#location {
+  width: 90%;
+}
 
 footer {
-    background-color: #845e3e;
+    background-color: #597d90;
     padding: 20px;
-    color: #fdfbf2;
+    width: 100%;
+    color: #d4d4d6;
 }
 
 footer a {
-    color: #d9ca5e;
+    color: #83acad;
     text-decoration: none;
 }
 
@@ -114,7 +126,7 @@ iframe {
 }
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #845e3e; 
+  border-top: 16px solid #597d90; 
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -141,17 +153,20 @@ iframe {
 }
 .wrapper {
   width: 100%;
-  background: #fff;
+  padding: 20px;
+  place-items: center; /* محاذاة أفقية وعمودية في المنتصف */
+  background: #ebeded;
   border-radius: 5px;
   box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, 0.1);
   direction: rtl;
   text-align: center;
+  
 }
 .wrapper .title {
   height: 120px;
-  background: #845e3e;
+  background: #597d90;
   border-radius: 5px 5px 0 0;
-  color: #fff;
+  color: #ebeded;
   font-size: 30px;
   font-weight: 600;
   display: flex;
@@ -159,7 +174,7 @@ iframe {
   justify-content: center;
 }
 .wrapper form {
-  padding: 25px 35px;
+  width: 300px;
 }
 .wrapper form .row {
   height: 60px;
@@ -178,7 +193,7 @@ iframe {
   text-align: center;
 }
 form .row input:focus {
-  border-color: #845e3e;
+  border-color: #597d90;
 }
 form .row input::placeholder {
   color: #999;
@@ -189,8 +204,8 @@ form .row input::placeholder {
   height: 100%;
   color: #fff;
   font-size: 22px;
-  background: #845e3e;
-  border: 1px solid #845e3e;
+  background: #597d90;
+  border: 1px solid #597d90;
   border-radius: 5px 0 0 5px;
   display: flex;
   align-items: center;
@@ -200,7 +215,7 @@ form .row input::placeholder {
   margin-top: 12px;
 }
 .wrapper form .pass a {
-  color: #845e3e;
+  color: #597d90;
   font-size: 17px;
   text-decoration: none;
 }
@@ -208,17 +223,16 @@ form .row input::placeholder {
   text-decoration: underline;
 }
 .wrapper form .button input {
-  margin-top: 20px;
   color: #fff;
   font-size: 20px;
   font-weight: 500;
   padding-left: 0px;
-  background: #845e3e;
-  border: 1px solid #845e3e;
+  background: #597d90;
+  border: 1px solid #597d90;
   cursor: pointer;
 }
 form .button input:hover {
-  background: #845e3e;
+  background: #597d90;
 }
 .wrapper form .signup-link {
   text-align: center;
@@ -226,7 +240,7 @@ form .button input:hover {
   font-size: 17px;
 }
 .wrapper form .signup-link a {
-  color: #845e3e;
+  color: #597d90;
   text-decoration: none;
 }
 form .signup-link a:hover {

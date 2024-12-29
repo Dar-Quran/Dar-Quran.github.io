@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مركز ماعين القرآني</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Marhey:wght@300..700&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css" />
-    
 </head>
 <body>
 
@@ -27,59 +27,134 @@
 
 <section id="about">
     <h2>عن المركز</h2>
-    <p>مركز ماعين لتعليم وتحفيظ القرآن الكريم، يهدف إلى تعليم الأطفال والشباب والأجيال القادمة حفظ كتاب الله وتعاليمه السامية.</p>
+    <p id="about_text">مركز ماعين القرآني، لتعليم وتحفيظ القرآن الكريم والعناية به، وهو إحدى المراكز المرخصة والعاملة تحت جمعية المحافظة على القرآن الكريم وتحت إشراف وزارة الأوقاف والمقدسات الإسلامية بالأردن...</p>
 </section>
 
-<section id="slider">
-  <h2>معرض الصور</h2>
-  <img src="image/1.jpg" class="active" alt="Image 1">
-  <img src="image/2.jpg" alt="Image 2"> 
-  <img src="image/3.jpg" alt="Image 3">
-  <img src="image/5.jpg" alt="Image 5">
-  <img src="image/9.jpg" alt="Image 9">
-  <img src="image/10.jpg" alt="Image 10">
-  <img src="image/11.jpg" alt="Image 11">
-  <img src="image/13.jpg" alt="Image 13">
-  <img src="image/14.jpg" alt="Image 14">
-    <div class="controls">
-        <button id="prev">السابق</button>
-        <button id="next">التالي</button>
+<div class="wrapper">
+    <br>
+    <h2>سارع بالتسجيل</h2>
+    <p id="about_text">سارع بالتسجيل الإلكتروني بأقرب فرصة (الأعداد محدودة)</p>
+    <form onsubmit="openForm(event)">
+        <div class="row button">
+            <input type="submit" value="تسجيل الآن" />
+        </div>
+    </form>
+</div>
+
+<div class="wrapper">
+    <br>
+    <section id="slider">
+        <h2>معرض الصور</h2>
+        <div class="wrapper">
+        <img src="image/1.png" class="active" alt="Image 1">
+        <img src="image/2.png" alt="Image 2">
+        <img src="image/3.png" alt="Image 3">
+        <img src="image/4.png" alt="Image 4">
+        <img src="image/5.png" alt="Image 5">
+        <img src="image/6.png" alt="Image 6">
+        <img src="image/7.png" alt="Image 7">
+        <img src="image/8.png" alt="Image 8">
+        <img src="image/9.png" alt="Image 9">
+        <img src="image/10.png" alt="Image 10">
     </div>
-</section>
+        <div class="controls">
+            <button id="next">التالي</button>
+            <button id="prev">السابق</button>
+        </div>
+    </section>
+</div>
 
-<section>
-    <h2>موقعنا الجغرافي</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3395.0893482566107!2d35.72711358484526!3d31.686125281315057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15034d353e181061%3A0xa6dc92a6688530df!2z2YXYsdmD2LIg2YXYp9i52YrZhiDYp9mE2YLYsdii2YbZig!5e0!3m2!1sar!2sjo!4v1727610101026!5m2!1sar!2sjo" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-</section>
+<div class="wrapper">
+    <br>
+    <section id="location">
+        <h2>موقعنا الجغرافي</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3395.0891815519713!2d35.72749982563537!3d31.686129838936058!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15034d353e181061%3A0xa6dc92a6688530df!2z2YXYsdmD2LIg2YXYp9i52YrZhiDYp9mE2YLYsdii2YbZig!5e0!3m2!1sar!2sus!4v1735430996692!5m2!1sar!2sus"></iframe>
+    </section>
+</div>
 
 <footer>
     <p>&copy; 2024 مركز ماعين القرآني. جميع الحقوق محفوظة.</p>
 </footer>
 
 <script>
-    const images = document.querySelectorAll('#slider img');
-    let currentIndex = 0;
+// فتح نافذة منبثقة عند الضغط على "تسجيل الآن"
+function openForm(event) {
+    event.preventDefault(); // منع النموذج من الإرسال
 
-    function showImage(index) {
-        images.forEach((img, i) => {
-            img.classList.toggle('active', i === index);
-        });
-    }
+    // إنشاء نافذة منبثقة
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    modal.style.zIndex = '1000';
 
-    document.getElementById('next').addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
+    const modalContent = document.createElement('div');
+    modalContent.style.backgroundColor = 'white';
+    modalContent.style.padding = '20px';
+    modalContent.style.borderRadius = '8px';
+    modalContent.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)';
+    modalContent.style.position = 'relative';
+    modalContent.style.width = '80%';
+    modalContent.style.height = '80%';
+
+    const iframe = document.createElement('iframe')
+    iframe.src = `https://docs.google.com/forms/d/e/1FAIpQLSd72KeCDVz_gfFuepRKuOXApW3UHqC7X5o7M_aKRVVO9MILWA/viewform?embedded=true`;
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.frameBorder = '0';
+
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'إغلاق';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '10px';
+    closeButton.style.backgroundColor = '#f44336';
+    closeButton.style.color = 'white';
+    closeButton.style.border = 'none';
+    closeButton.style.padding = '10px 20px';
+    closeButton.style.borderRadius = '5px';
+    closeButton.style.cursor = 'pointer';
+
+    closeButton.onclick = () => {
+        document.body.removeChild(modal); // إغلاق النافذة المنبثقة
+    };
+
+    modalContent.appendChild(closeButton);
+    modalContent.appendChild(iframe);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+}
+
+// إدارة الصور
+const images = document.querySelectorAll('#slider img');
+let currentIndex = 0;
+
+function showImage(index) {
+    images.forEach((img, i) => {
+        img.classList.toggle('active', i === index);
     });
+}
 
-    document.getElementById('prev').addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
-    });
+document.getElementById('next').addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+});
 
-    setInterval(() => {
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
-    }, 3000);
+document.getElementById('prev').addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    showImage(currentIndex);
+});
+
+setInterval(() => {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+}, 3000);
 </script>
 
 </body>
