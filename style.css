@@ -59,6 +59,10 @@ nav ul li a {
     text-decoration: none;
     font-size: 24px;
 }
+#girls_button{
+    background: #9c607d;
+    border: 1px solid #9c607d;
+}
 
 #about {
     padding: 30px;

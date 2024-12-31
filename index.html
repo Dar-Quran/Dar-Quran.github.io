@@ -13,7 +13,7 @@
 
 <header>
     <h1>مركز ماعين القرآني</h1>
-    <img src="logo.png" alt="شعار مركز ماعين القرآني">
+    <a href="/"><img src="logo.png" alt="شعار مركز ماعين القرآني"></a>
 </header>
 
 <nav>
@@ -33,9 +33,18 @@
     <br>
     <h2>سارع بالتسجيل</h2>
     <p id="about_text">سارع بالتسجيل الإلكتروني بأقرب فرصة (الأعداد محدودة)</p>
-    <form onsubmit="openForm(event)">
+    <form onsubmit="openForm(event, 'https://docs.google.com/forms/d/e/1FAIpQLSd72KeCDVz_gfFuepRKuOXApW3UHqC7X5o7M_aKRVVO9MILWA/viewform?embedded=true')">
+
         <div class="row button">
-            <input type="submit" value="تسجيل الآن" />
+            <input type="submit" value="تسجيل الذكور" />
+        </div>
+        
+    </form>
+
+    <form onsubmit="openForm(event, 'https://docs.google.com/forms/d/e/1FAIpQLSctz-w_uQprVWyrvbw6ItA51jgbq8PMpzBw5Trv8dLUc1RMhw/viewform?embedded=true')">
+
+        <div class="row button">
+            <input id="girls_button" type="submit" value="تسجيل الإناث" />
         </div>
         
     </form>
@@ -80,7 +89,7 @@
 
 <script>
 // فتح نافذة منبثقة عند الضغط على "تسجيل الآن"
-function openForm(event) {
+function openForm(event, formUrl) {
     event.preventDefault(); // منع النموذج من الإرسال
 
     // إنشاء نافذة منبثقة
@@ -105,8 +114,8 @@ function openForm(event) {
     modalContent.style.width = '95%';
     modalContent.style.height = '95%';
 
-    const iframe = document.createElement('iframe')
-    iframe.src = `https://docs.google.com/forms/d/e/1FAIpQLSd72KeCDVz_gfFuepRKuOXApW3UHqC7X5o7M_aKRVVO9MILWA/viewform?embedded=true`;
+    const iframe = document.createElement('iframe');
+    iframe.src = formUrl; // استخدام الرابط المُمرر كـ parameter
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.frameBorder = '0';
@@ -132,7 +141,6 @@ function openForm(event) {
     modal.appendChild(modalContent);
     document.body.appendChild(modal);
 }
-
 // إدارة الصور
 const images = document.querySelectorAll('#slider img');
 let currentIndex = 0;
