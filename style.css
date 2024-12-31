@@ -15,26 +15,55 @@ body {
 
 header {
     background-color: #ebeded; /* لون الترويسة */
-    padding: 5px;
+
     color: #597d90; /* لون النص في الترويسة */
     display: flex;
     align-items: center;
-    justify-content: center;
     position: sticky;
     top: 0; /* يجعل العنوان يلتصق بأعلى الشاشة */
     z-index: 1000; /* لضمان ظهوره فوق العناصر الأخرى */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* تأثير ظل عند الثبات */
     width: 100%;
+    
+    display: flex;
 }
 
-header img {
+.main_text_ad {
+  margin: auto;
+  padding: 25px;
+  padding-top: 0px;
+  font-size: 35px;
+  animation: shake 2.5s  infinite; /* كل 3 ثوانٍ */
+}
+  @keyframes shake {
+    0% { 
+    transform: scale(1);}
+  25% { 
+    transform: scale(0.98);}
+  50% { 
+    transform: scale(1.01);}
+  75% { 
+    transform: scale(0.98);}
+  100% { 
+    transform: scale(1);}
+}
+
+
+
+.logo{
+  margin: auto; /* توسيط الصورة */
+}
+.logo img {
   width: 100%; /* تمديد الصورة بعرض كامل العنصر */
   max-width: 400px; /* حد أقصى للعرض لتجنب التشوه */
   height: auto; /* الحفاظ على النسبة الأصلية للصورة */
   display: block; /* ضمان تنسيق الصورة بشكل جيد */
-  margin: 0 auto; /* توسيط الصورة */
-}
 
+}
+.login-icon {
+  height: 40px; /* ضبط حجم أيقونة تسجيل الدخول */
+  cursor: pointer; /* تغيير مؤشر الماوس عند المرور */
+}
 
 header h1 {
   display: none;
