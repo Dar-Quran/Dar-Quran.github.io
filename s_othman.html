@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قراءة بيانات JSON من روابط متعددة</title>
+    <style>
+        html {
+            direction: rtl;
+            font-family: "Droid Arabic Kufi", "Droid Sans", sans-serif;
+            font-size: 14px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: right;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        .filter-container, .sort-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>نتائج الطلاب</h1>
+
+<div class="filter-container">
+    <label for="dateFilter">تصفية النتائج حسب التاريخ:</label>
+    <input type="date" id="dateFilter" />
+</div>
+
+<div class="filter-container">
+    <label for="nameFilter">تصفية النتائج حسب الاسم:</label>
+    <select id="nameFilter">
+        <option value="">جميع الأسماء</option>
+        <!-- سيتم إضافة الأسماء هنا من خلال JavaScript -->
+    </select>
+</div>
+
+<div class="sort-container">
+    <label for="sortSelect">ترتيب النتائج حسب:</label>
+    <select id="sortSelect">
+        <option value="dateAsc">التاريخ (الأقدم إلى الأحدث)</option>
+        <option value="dateDesc">التاريخ (الأحدث إلى الأقدم)</option>
+        <option value="nameAsc">الاسم (أبجدي تصاعدي)</option>
+        <option value="nameDesc">الاسم (أبجدي تنازلي)</option>
+        <option value="hifzAsc">الحفظ (تصاعدي)</option>
+        <option value="hifzDesc">الحفظ (تنازلي)</option>
+        <option value="attendanceAsc">الحضور (تصاعدي)</option>
+        <option value="attendanceDesc">الحضور (تنازلي)</option>
+    </select>
+</div>
+
+<!-- جدول النتائج الموحد -->
+<table id="resultsTable">
+    <thead>
+        <tr>
+            <th>الاسم</th>
+            <th>التاريخ</th>
+            <th>الحفظ</th>
+            <th>الحضور</th>
+            <th>الواجب التالي</th>
+            <th>ملاحظات تربوية</th>
+        </tr>
+    </thead>
+    <tbody id="tablesContainer"></tbody>
+</table>
+
+<script>
+    const urlsJsonUrl = 'https://script.google.com/macros/s/AKfycbwnIRx8JzsaB-G6czWcQIVOwbzCUUEOqGRimbTsLfZQaz8hBvonsY3nxNsRQfBw6116wQ/exec'; // الرابط الصحيح
+
+    // جلب الروابط من JSON
+    fetch(urlsJsonUrl)
+        .then(response => response.json())
+        .then(data => {
+            const allResults = []; // مصفوفة لتخزين جميع النتائج
+            const namesSet = new Set(); // مجموعة لتخزين الأسماء الفريدة
+
+            data.forEach(item => {
+                const url = item["معرف قاعدة البيانات"];
+                const studentName = item["إسم الطالب"];
+                
+                fetch("https://script.google.com/macros/s/" + url + "/exec")
+                    .then(response => response.json())
+                    .then(studentData => {
+                        studentData.forEach(item => {
+                            allResults.push({
+                                date: new Date(item["التاريخ"]),
+                                name: studentName,
+                                attendance: item["الحضور"],
+                                hifz: item["الحفظ"],
+                                homework: item["الواجب التالي"],
+                                notes: item["ملاحظات تربوية"]
+                            });
+                            namesSet.add(studentName); // إضافة الاسم إلى المجموعة
+                        });
+                        
+                        renderTable(allResults); // عرض النتائج بعد التحميل
+                        const tempArray = new Set(namesSet);
+                        populateNameFilter(Array.from(tempArray)); // ملء قائمة الأسماء
+                    })
+                    .catch(error => console.error('حدث خطأ في جلب بيانات الطالب:', error));
+            });
+
+            // دالة لعرض الجدول بناءً على النتائج
+            function renderTable(results) {
+                const tbody = document.getElementById('tablesContainer');
+                tbody.innerHTML = ''; // مسح الجدول الحالي
+
+                results.forEach(item => {
+                    const row = tbody.insertRow();
+                    row.insertCell(0).textContent = item.name; // إضافة اسم الطالب
+                    row.insertCell(1).textContent = item.date.toLocaleDateString('ar-EG');
+                    row.insertCell(2).textContent = item.hifz;
+                    row.insertCell(3).textContent = item.attendance;
+                    row.insertCell(4).textContent = item.homework;
+                    row.insertCell(5).textContent = item.notes;
+                });
+            }
+
+            // دالة لملء قائمة الأسماء
+            function populateNameFilter(names) {
+                const nameFilter = document.getElementById('nameFilter');
+                names.forEach(name => {
+                    const option = document.createElement('option');
+                    option.value = name;
+                    option.textContent = name;
+                    nameFilter.appendChild(option);
+                });
+            }
+
+            // تصفية النتائج حسب التاريخ
+            document.getElementById('dateFilter').addEventListener('input', function() {
+                const selectedDate = new Date(this.value);
+                const filteredResults = allResults.filter(item => 
+                    item.date.toLocaleDateString('ar-EG') === selectedDate.toLocaleDateString('ar-EG')
+                );
+                renderTable(filteredResults); // عرض النتائج المصفاة
+                sortResults(filteredResults); // ترتيب النتائج بعد التصفية
+            });
+
+            // تصفية النتائج حسب الاسم
+            document.getElementById('nameFilter').addEventListener('change', function() {
+                const selectedName = this.value;
+                const filteredResults = selectedName 
+                    ? allResults.filter(item => item.name === selectedName)
+                    : allResults; // إذا لم يتم اختيار اسم، عرض جميع النتائج
+
+                renderTable(filteredResults); // عرض النتائج المصفاة
+                sortResults(filteredResults); // ترتيب النتائج بعد التصفية
+            });
+
+            // ترتيب النتائج حسب الخيار المحدد
+            document.getElementById('sortSelect').addEventListener('change', function() {
+                const currentResults = Array.from(document.getElementById('tablesContainer').rows).map(row => ({
+                    name: row.cells[0].textContent,
+                    date: new Date(row.cells[1].textContent),
+                    hifz: row.cells[2].textContent,
+                    attendance: row.cells[3].textContent,
+                    homework: row.cells[4].textContent,
+                    notes: row.cells[5].textContent
+                }));
+
+                sortResults(currentResults); // ترتيب النتائج الحالية
+            });
+
+            // دالة لترتيب النتائج
+            function sortResults(results) {
+                const sortOption = document.getElementById('sortSelect').value;
+                
+                if (sortOption === 'dateAsc') {
+                    results.sort((a, b) => a.date - b.date);
+                } else if (sortOption === 'dateDesc') {
+                    results.sort((a, b) => b.date - a.date);
+                } else if (sortOption === 'nameAsc') {
+                    results.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+                } else if (sortOption === 'nameDesc') {
+                    results.sort((a, b) => b.name.localeCompare(a.name, 'ar'));
+                } else if (sortOption === 'hifzAsc') {
+                    results.sort((a, b) => a.hifz.localeCompare(b.hifz, 'ar'));
+                } else if (sortOption === 'hifzDesc') {
+                    results.sort((a, b) => b.hifz.localeCompare(a.hifz, 'ar'));
+                } else if (sortOption === 'attendanceAsc') {
+                    results.sort((a, b) => a.attendance.localeCompare(b.attendance, 'ar'));
+                } else if (sortOption === 'attendanceDesc') {
+                    results.sort((a, b) => b.attendance.localeCompare(a.attendance, 'ar'));
+                }
+
+                renderTable(results); // عرض النتائج بعد الترتيب
+            }
+        })
+        .catch(error => console.error('حدث خطأ في جلب الروابط:', error));
+</script>
+
+</body>
+</html>
