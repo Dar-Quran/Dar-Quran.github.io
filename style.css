@@ -206,9 +206,6 @@ iframe {
   align-items: center;
   justify-content: center;
 }
-.wrapper form {
-  width: 300px;
-}
 .wrapper form .row {
   height: 60px;
   margin-top: 15px;
