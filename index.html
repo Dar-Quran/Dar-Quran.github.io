@@ -24,8 +24,6 @@
     <link rel="image_src" href="image/cover.png" />
     <link rel="icon" href="image/favicon.png" type="image/png">
 </head>
-<body>
-    
 
     <header>
         <h1>مركز ماعين القرآني</h1>
@@ -119,11 +117,33 @@ function openForm(event, formUrl) {
     modalContent.style.width = '95%';
     modalContent.style.height = '95%';
 
+
     const iframe = document.createElement('iframe');
     iframe.src = formUrl; // استخدام الرابط المُمرر كـ parameter
     iframe.style.width = '100%';
     iframe.style.height = '100%';
     iframe.frameBorder = '0';
+
+    iframe.onload = function () {
+        if (myContent && myContent.parentNode) {
+            myContent.parentNode.removeChild(myContent);
+        }
+    };
+
+    const myContent = document.createElement('div');
+    myContent.textContent = '⏳ يرجى الانتظار حتى يتم تحميل الصفحة...';
+    myContent.style.position = 'fixed';
+    myContent.style.top = '50%';
+    myContent.style.left = '50%';
+    myContent.style.transform = 'translate(-50%, -50%)';
+    myContent.style.backgroundColor = '#f44336';
+    myContent.style.color = 'white';
+    myContent.style.padding = '15px 30px';
+    myContent.style.borderRadius = '8px';
+    myContent.style.fontSize = '18px';
+    myContent.style.fontFamily = "'Rubik', sans-serif";
+    myContent.style.zIndex = '2000';
+    myContent.style.boxShadow = '0 0 15px rgba(0,0,0,0.3)';
 
     const closeButton = document.createElement('button');
     closeButton.textContent = 'إغلاق';
@@ -143,6 +163,7 @@ function openForm(event, formUrl) {
 
     modalContent.appendChild(closeButton);
     modalContent.appendChild(iframe);
+    modalContent.appendChild(myContent);
     modal.appendChild(modalContent);
     document.body.appendChild(modal);
 }
